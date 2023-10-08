@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -18,9 +19,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
+
+        $user_feedbacks = User::with(['feedbacks' => function($query){
+            $query->withCount('votes')->with('category','votes','user');
+        }])
+
+        ->find(auth()->user()->id);
+
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'user_feedbacks' => $user_feedbacks
         ]);
     }
 

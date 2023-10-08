@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -17,12 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Auth/Login');
 });
 
 Route::get('/dashboard', function () {
@@ -30,6 +26,16 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('/feedbacks',[FeedbackController::class,'index'])->name('feedbacks');
+    Route::get('/feedbacks/create',[FeedbackController::class,'create'])->name('feedbacks.create');
+    Route::post('/feedbacks/store',[FeedbackController::class,'store'])->name('feedbacks.store');
+    Route::get('/feedbacks/show/{id}',[FeedbackController::class,'show'])->name('feedbacks.show');
+    Route::post('/feedbacks/upvote',[FeedbackController::class,'upvote'])->name('feedbacks.upvote');
+    Route::post('/feedbacks/downvote',[FeedbackController::class,'downvote'])->name('feedbacks.downvote');
+    Route::post('/feedbacks/comment/store',[FeedbackController::class,'storeComment'])->name('feedbacks.comments.store');
+
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+
+.active-pagination-link{
+    background-color: white;
+    color: black;
+}
