@@ -84,6 +84,6 @@ class AdminController extends Controller
         Vote::where('feedback_id', $request->feedback_id)->delete();
         Comment::where('feedback_id', $request->feedback_id)->delete();
 
-        return redirect()->route('feedbacks.admin')->with('success', 'Data Deleted.');
+        return redirect('/admin/feedbacks');
     }
 }

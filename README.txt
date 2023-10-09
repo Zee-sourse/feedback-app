@@ -4,11 +4,11 @@ There are only few steps to install (which i think you already know but i'm goin
 
 1  - composer install
 2  - npm install
-3  - npm run dev
-4  - cp .env-example .env
-5  - change DB name if you want to im using mysql
-5  - php artisan key:generate
-4  - php artisan migrate --seed
+3  - cp .env-example .env
+4  - change DB name if you want to im using mysql
+6  - php artisan key:generate
+7  - php artisan migrate --seed
+8  - npm run dev
 
 Voila you are good to go....
 
