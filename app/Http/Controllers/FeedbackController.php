@@ -93,7 +93,7 @@ class FeedbackController extends Controller
         Vote::create([
             'user_id' => auth()->user()->id,
             'feedback_id' => $request->feedback_id,
-            'type' => 'up'
+            'type' => 'upvote'
         ]);
 
         return redirect()->route('feedbacks.show',$request->feedback_id);
@@ -106,7 +106,7 @@ class FeedbackController extends Controller
         Vote::create([
             'user_id' => auth()->user()->id,
             'feedback_id' => $request->feedback_id,
-            'type' => 'down'
+            'type' => 'downvote'
         ]);
 
         return redirect()->route('feedbacks.show',$request->feedback_id);

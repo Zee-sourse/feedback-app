@@ -21,11 +21,11 @@ class Feedback extends Model
     // Define the relationship: a feedback item can have many votes
     public function upvotes()
     {
-        return $this->hasMany(Vote::class)->where('type','up');
+        return $this->hasMany(Vote::class)->where('type','upvote');
     }
     public function downvotes()
     {
-        return $this->hasMany(Vote::class)->where('type','down');
+        return $this->hasMany(Vote::class)->where('type','downvote');
     }
     public function votes()
     {
@@ -35,7 +35,7 @@ class Feedback extends Model
     // Define the relationship: a feedback item can have many comments
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class)->orderByDesc('id');
     }
 
     public function category()

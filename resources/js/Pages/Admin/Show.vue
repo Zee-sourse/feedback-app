@@ -3,9 +3,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { Inertia } from "@inertiajs/inertia";
-import { ref, reactive } from "vue";
-import { Mentionable } from "vue-mention";
-import VueMention from "./VueMention.vue";
+import { reactive } from "vue";
+import { Head, Link } from "@inertiajs/vue3";
+
 
 defineProps({
     feedback: {
@@ -18,7 +18,7 @@ defineProps({
 
 const form = reactive({
     input: "",
-    textarea: '',
+    textarea: "",
     feedback_id: null,
 });
 
@@ -54,32 +54,12 @@ const timeAgo = (timestamp) => {
     return "Just now";
 };
 
-// upvote
 
-const upVotefeedback = (id) => {
+const deleteFeedback = (id) => {
     const data = { feedback_id: id };
-    Inertia.post(route("feedbacks.upvote"), data);
-};
-const downVotefeedback = (id) => {
-    const data = { feedback_id: id };
-    Inertia.post(route("feedbacks.downvote"), data);
+    Inertia.post(route("feedbacks.admin.delete"), data);
 };
 
-function submitComment(id) {
-    form.feedback_id = id;
-    if (form.input == "") {
-        alert("Please enter a comment");
-        return;
-    }
-    if (form.textarea == "") {
-        alert("Please enter a comment");
-        return;
-    }
-
-    Inertia.post(route("feedbacks.comments.store"), form);
-    // Send commentContent to the Laravel backend
-    // Handle user mentions on the backend and save the comment
-}
 
 function formatString(inputString) {
     // Check if the string contains the "@" symbol
@@ -152,14 +132,9 @@ const convertComment = (jsonString) => {
                             </p>
                         </div>
                     </div>
-                    <div class="text-gray-500 cursor-pointer">
-                        <!-- Three-dot menu icon -->
-                        <Link
-                            as="button"
-                            :href="route('feedbacks.create')"
-                            class="bg-white px-6 rounded hover:bg-gray-800 hover:text-white transition-all duration-150 ease-in py-2 hover:border-white hover:border"
-                            >Create</Link
-                        >
+                    <div class="text-gray-500 cursor-pointer space-x-2">
+                            <Link as="button" :href="route('feedbacks.admin.edit',feedback.id)" class="bg-gray-800 text-white  px-6 rounded hover:bg-gray-600 hover:text-gray-white transition-all duration-150 ease-in py-2 hover:border-white hover:border" >Edit</Link>
+                            <Link as="button" @click="deleteFeedback(feedback.id)" class="bg-red-800 text-white  px-6 rounded hover:bg-red-600 hover:text-gray-white transition-all duration-150 ease-in py-2 hover:border-white hover:border" >Delete</Link>
                     </div>
                 </div>
                 <!-- Message -->
@@ -174,14 +149,14 @@ const convertComment = (jsonString) => {
                 <div class="flex items-center justify-between text-gray-500">
                     <div class="flex items-center space-x-2">
                         <button
-                            @click="upVotefeedback(feedback.id)"
+                          
                             class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1"
                         >
                             <img src="/images/up.png" alt="" class="w-6" />
                             <span>{{ feedback.upvotes.length }} Upvotes</span>
                         </button>
                         <button
-                            @click="downVotefeedback(feedback.id)"
+
                             class="flex justify-center items-center gap-2 px-2 hover:bg-gray-50 rounded-full p-1"
                         >
                             <img src="/images/down.png" alt="" class="w-6" />
@@ -217,40 +192,6 @@ const convertComment = (jsonString) => {
                         <span>{{ feedback.comments.length }} Comment</span>
                     </button>
                 </div>
-                <hr class="mt-2 mb-2" />
-                <p class="text-gray-800 font-semibold">
-                    Add a Comment, you can also mention someone else
-                </p>
-                <div class="">
-                    <Mentionable :keys="['@']" :items="users" offset="6">
-                        <input
-                            id="title"
-                            type="text"
-                            v-model="form.input"
-                            placeholder="@mention someone"
-                            class="block w-full px-4 py-2 mb-2 mt-2 text-gray-900 bg-white border border-gray-300 rounded-md"
-                        />
-                    </Mentionable>
-                    <QuillEditor
-                        theme="snow"
-                        @text-change="getConent"
-                        v-model:content="form.textarea"
-                        :toolbar="[
-                            'bold',
-                            'italic',
-                            'underline',
-                            'code-block',
-                            'mention',
-                        ]"
-                    />
-                </div>
-                <button
-                    @click="submitComment(feedback.id)"
-                    class="text-white my-2 px-6 rounded bg-gray-900 hover:bg-gray-800 hover:text-white transition-all duration-150 ease-in py-2 hover:border-gray-900 hover:border"
-                >
-                    Submit Comment
-                </button>
-                <hr class="mt-2 mb-2" />
                 <div class="mt-4">
                     <!-- Comment 1 -->
                     <div

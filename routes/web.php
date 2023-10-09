@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -40,5 +41,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::middleware(['auth','is_admin'])->group(function () {
+
+    Route::get('/admin/feedbacks',[AdminController::class,'feedbacks'])->name('feedbacks.admin');
+    Route::get('/admin/feedbacks/show/{id}',[AdminController::class,'show'])->name('feedbacks.admin.show');
+    Route::get('/admin/feedbacks/edit/{id}',[AdminController::class,'edit'])->name('feedbacks.admin.edit');
+    Route::post('/admin/feedbacks/update',[AdminController::class,'update'])->name('feedbacks.admin.update');
+    Route::post('/admin/feedbacks/delete',[AdminController::class,'delete'])->name('feedbacks.admin.delete');
+
+});
+
 
 require __DIR__.'/auth.php';
