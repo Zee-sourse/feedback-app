@@ -82,7 +82,7 @@ export default {
                                     v-model="selectedCategory"
                                     @change="searchWithCateogry"
                                 >
-                                    <option selected>Select Category</option>
+                                    <option selected value="">Select Category</option>
                                     <option
                                         v-for="category in categories"
                                         :value="category.id"

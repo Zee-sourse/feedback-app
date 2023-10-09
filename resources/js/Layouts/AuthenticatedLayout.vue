@@ -39,14 +39,16 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user.is_admin == 0"
+                                <NavLink
+                                    v-if="$page.props.auth.user.is_admin == 0"
                                     :href="route('feedbacks')"
                                     :active="route().current('feedbacks')"
                                     class="text-white"
                                 >
                                     Feedbacks
                                 </NavLink>
-                                <NavLink v-if="$page.props.auth.user.is_admin == 1"
+                                <NavLink
+                                    v-if="$page.props.auth.user.is_admin == 1"
                                     :href="route('feedbacks.admin')"
                                     :active="route().current('feedbacks.admin')"
                                     class="text-white"
@@ -159,6 +161,20 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                         v-if="$page.props.auth.user.is_admin == 0"
+                            :href="route('feedbacks')"
+                            :active="route().current('feedbacks')"
+                        >
+                            Feedbacks   
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                           v-if="$page.props.auth.user.is_admin == 1"
+                            :href="route('feedbacks.admin')"
+                            :active="route().current('feedbacks.admin')"
+                        >
+                            Feedbacks
                         </ResponsiveNavLink>
                     </div>
 

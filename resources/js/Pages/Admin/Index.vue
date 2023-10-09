@@ -4,16 +4,15 @@ import Pagination from "@/Layouts/Pagination.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Head, Link } from "@inertiajs/vue3";
 
-
 export default {
     name: "Index",
     components: {
-    AuthenticatedLayout,
-    Pagination,
-    Head,
-    PrimaryButton,
-    Link
-},
+        AuthenticatedLayout,
+        Pagination,
+        Head,
+        PrimaryButton,
+        Link,
+    },
     props: {
         feedbacks: {
             type: Object,
@@ -33,24 +32,28 @@ export default {
     },
     methods: {
         searchWithCateogry() {
-            this.$inertia.get('/feedbacks',{search: this.selectedCategory},{
-                preserveScroll: true,
-                preserveState: true
-
-            });
+            this.$inertia.get(
+                "/feedbacks",
+                { search: this.selectedCategory },
+                {
+                    preserveScroll: true,
+                    preserveState: true,
+                }
+            );
         },
     },
-    watch:{
-        searchQuery(value){
-            this.$inertia.get('/feedbacks',{search: value},{
-                preserveScroll: true,
-                preserveState: true
-
-            });
-        }
-    }
-
-
+    watch: {
+        searchQuery(value) {
+            this.$inertia.get(
+                "/feedbacks",
+                { search: value },
+                {
+                    preserveScroll: true,
+                    preserveState: true,
+                }
+            );
+        },
+    },
 };
 </script>
 
@@ -74,15 +77,15 @@ export default {
                     </h1>
                     <div class="flex items-center justify-between mb-6">
                         <div class="flex items-center mr-4 w-full max-w-lg">
-                            <div
-                                class="flex w-full bg-white rounded shadow"
-                            >
+                            <!-- <div class="flex w-full bg-white rounded shadow">
                                 <select
                                     class="form-select w-full"
                                     v-model="selectedCategory"
                                     @change="searchWithCateogry"
                                 >
-                                    <option selected>Select Category</option>
+                                    <option selected value="">
+                                        Select Category
+                                    </option>
                                     <option
                                         v-for="category in categories"
                                         :value="category.id"
@@ -100,8 +103,7 @@ export default {
                                     @keydown="searchWithInput"
                                     placeholder="Search…"
                                 />
-
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="bg-white rounded-md shadow overflow-x-auto">
@@ -124,16 +126,25 @@ export default {
                                     <td class="border-t">
                                         <Link
                                             class="flex items-center px-6 py-4 focus:text-indigo-500"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             >{{ feedback.title ?? "" }}
-                                        </Link
-                                        >
+                                        </Link>
                                     </td>
                                     <td class="border-t">
                                         <Link
                                             class="flex items-center px-6 py-4"
                                             tabindex="-1"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             >{{
                                                 feedback.description.substring(
                                                     0,
@@ -146,7 +157,12 @@ export default {
                                         <Link
                                             class="flex items-center px-6 py-4"
                                             tabindex="-1"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             >{{
                                                 feedback.votes
                                                     ? feedback.votes.length
@@ -155,9 +171,15 @@ export default {
                                         >
                                     </td>
                                     <td class="border-t">
-                                        <Link                                           class="flex items-center px-6 py-4"
+                                        <Link
+                                            class="flex items-center px-6 py-4"
                                             tabindex="-1"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             >{{
                                                 feedback.category
                                                     ? feedback.category.name
@@ -169,7 +191,12 @@ export default {
                                         <Link
                                             class="flex items-center px-6 py-4"
                                             tabindex="-1"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             >{{
                                                 feedback.user
                                                     ? feedback.user.name
@@ -181,7 +208,12 @@ export default {
                                         <Link
                                             class="flex items-center px-4"
                                             tabindex="-1"
-                                            :href="route('feedbacks.admin.show',feedback.id)"
+                                            :href="
+                                                route(
+                                                    'feedbacks.admin.show',
+                                                    feedback.id
+                                                )
+                                            "
                                             ><svg
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 20 20"

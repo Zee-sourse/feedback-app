@@ -37,8 +37,6 @@ class AdminController extends Controller
     public function show($id)
     {
 
-        $users = User::select('name')->get();
-
         $feedback = Feedback::with('user', 'upvotes', 'downvotes', 'comments.user', 'category')->find($id);
         return Inertia::render('Admin/Show', [
             'feedback' => $feedback,

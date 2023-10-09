@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CommentMail;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Feedback;
@@ -10,6 +11,7 @@ use App\Models\Vote;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class FeedbackController extends Controller
@@ -119,6 +121,20 @@ class FeedbackController extends Controller
             'textarea' => ['required'],
             'feedback_id' => ['required'],
         ]);
+
+        $users = User::all();
+
+        // we can send notification to all other users that someone commented ont their feedback
+        // this was taking time to send all the other users thats why i have commented this portion
+
+        // $feedback = Feedback::find($request->feedback_id);
+
+        // foreach ($users as $user) {
+        //     $message = auth()->user()->name .' has commented on feedback '. $feedback->title;
+        //     $email =  Mail::to($user->email)->send(new CommentMail($message));
+        // }
+
+
         Comment::create([
             'user_id' => auth()->user()->id,
             'feedback_id' => $request->feedback_id,
